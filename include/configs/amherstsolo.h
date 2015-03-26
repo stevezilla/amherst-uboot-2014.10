@@ -21,7 +21,7 @@
 #elif defined(CONFIG_MX6DL)
 #define CONFIG_DEFAULT_FDT_FILE	"imx6dl-amherst-ldo.dtb"
 #endif
-#define PHYS_SDRAM_SIZE		(1u * 1024 * 1024 * 1024)
+#define PHYS_SDRAM_SIZE		512 * 1024 * 1024
 
 #define CONFIG_SUPPORT_EMMC_BOOT /* eMMC specific */
 
