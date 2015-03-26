@@ -165,7 +165,6 @@ iomux_v3_cfg_t const usdhc2_pads[] = {
 	MX6_PAD_SD2_DAT1__SD2_DATA1	| MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD2_DAT2__SD2_DATA2	| MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD2_DAT3__SD2_DATA3	| MUX_PAD_CTRL(USDHC_PAD_CTRL),
-	MX6_PAD_GPIO_18__GPIO7_IO13	| MUX_PAD_CTRL(NO_PAD_CTRL),
 };
 
 iomux_v3_cfg_t const usdhc3_pads[] = {
@@ -289,8 +288,20 @@ int board_mmc_init(bd_t *bis)
 			imx_iomux_v3_setup_multiple_pads(
 				usdhc2_pads, ARRAY_SIZE(usdhc2_pads));
 			/*gpio_direction_input(USDHC2_CD_GPIO);*/
-			gpio_direction_output(IMX_GPIO_NR(7,13),0);
-			gpio_direction_output(IMX_GPIO_NR(7,13),1);
+			/*gpio_direction_output(IMX_GPIO_NR(7,13),0);
+			gpio_direction_output(IMX_GPIO_NR(7,13),1);*/
+
+			imx_iomux_v3_setup_pad(MX6_PAD_GPIO_18__GPIO_7_13);
+                        reg = readl(GPIO7_BASE_ADDR + 0x04);
+                        reg |= (1 << 13);
+                        writel(reg, GPIO7_BASE_ADDR + 0x04);
+
+                        reg = readl(GPIO7_BASE_ADDR + 0x00);
+                        reg |= (1 << 13);
+                        writel(reg, GPIO7_BASE_ADDR + 0x00);
+
+
+
 			usdhc_cfg[0].sdhc_clk = mxc_get_clock(MXC_ESDHC2_CLK);
 			break;
 		case 1:
