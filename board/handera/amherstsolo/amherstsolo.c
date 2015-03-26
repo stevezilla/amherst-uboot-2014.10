@@ -291,7 +291,7 @@ int board_mmc_init(bd_t *bis)
 			/*gpio_direction_output(IMX_GPIO_NR(7,13),0);
 			gpio_direction_output(IMX_GPIO_NR(7,13),1);*/
 
-			imx_iomux_v3_setup_pad(MX6_PAD_GPIO_18__GPIO_7_13);
+			imx_iomux_v3_setup_pad(MX6_PAD_GPIO_18__GPIO7_IO13);
                         reg = readl(GPIO7_BASE_ADDR + 0x04);
                         reg |= (1 << 13);
                         writel(reg, GPIO7_BASE_ADDR + 0x04);
