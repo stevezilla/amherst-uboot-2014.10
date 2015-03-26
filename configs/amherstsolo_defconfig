@@ -1,3 +1,3 @@
-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/handera/amherstsolo/imximage.cfg,MX6SX"
+CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/handera/amherstsolo/imximage.cfg,MX6DL"
 CONFIG_ARM=y
 CONFIG_TARGET_AMHERSTSOLO=y
