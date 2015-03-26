@@ -119,6 +119,22 @@ static void setup_iomux_fec(void)
 	gpio_set_value(IMX_GPIO_NR(1, 3), 1);
 }
 
+static int setup_fec(void)
+{
+        struct iomuxc *iomuxc_regs = (struct iomuxc *)IOMUXC_BASE_ADDR;
+        int ret;
+
+        /* clear gpr1[14], gpr1[18:17] to select anatop clock */
+        clrsetbits_le32(&iomuxc_regs->gpr[1], IOMUX_GPR1_FEC_MASK, 0);
+
+        ret = enable_fec_anatop_clock(ENET_50MHz);
+        if (ret)
+                return ret;
+
+        return 0;
+}
+
+
 iomux_v3_cfg_t const usdhc2_pads[] = {
 	MX6_PAD_SD2_CLK__SD2_CLK	| MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD2_CMD__SD2_CMD	| MUX_PAD_CTRL(USDHC_PAD_CTRL),
@@ -471,10 +487,16 @@ int board_init(void)
 	/* address of boot parameters */
 	gd->bd->bi_boot_params = PHYS_SDRAM + 0x100;
 
+#ifdef CONFIG_FEC_MXC
+	setup_fec();
+#endif
+
 #ifdef CONFIG_MXC_SPI
 	setup_spi();
 #endif
 	setup_i2c(1, CONFIG_SYS_I2C_SPEED, 0x7f, &i2c_pad_info1);
+
+
 
 	return 0;
 }
