@@ -408,6 +408,9 @@ config TARGET_MX6SLEVK
 config TARGET_MX6SXSABRESD
 	bool "Support mx6sxsabresd"
 
+config TARGET_AMHERSTSOLO
+	bool "Support amherstsolo"
+
 config TARGET_GW_VENTANA
 	bool "Support gw_ventana"
 
