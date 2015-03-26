@@ -83,6 +83,22 @@ iomux_v3_cfg_t const enet_pads[] = {
 	MX6_PAD_ENET_CRS_DV__GPIO1_IO25		| MUX_PAD_CTRL(NO_PAD_CTRL),
 };
 
+iomux_v3_cfg_t const fec_pads[] = {
+	MX6_PAD_ENET_MDC__ENET_MDC | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_MDIO__ENET_MDIO | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_CRS_DV__ENET_RX_EN | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_RXD0__ENET_RX_DATA0 | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_RXD1__ENET_RX_DATA1 | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_TX_EN__ENET_TX_EN | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_TXD0__ENET_TX_DATA0 | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_TXD1__ENET_TX_DATA1 | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_REF_CLK__ENET_TX_CLK | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_GPIO_3__GPIO1_IO03 | MUX_PAD_CTRL(NO_PAD_CTRL), /* reset */
+        MX6_PAD_KEY_COL2__GPIO4_IO10 | MUX_PAD_CTRL(NO_PAD_CTRL), /*nINT pint */
+        MX6_PAD_GPIO_16__ENET_REF_CLK | MUX_PAD_CTRL(NO_PAD_CTRL),
+};
+
+
 static void setup_iomux_enet(void)
 {
 	imx_iomux_v3_setup_multiple_pads(enet_pads, ARRAY_SIZE(enet_pads));
@@ -91,6 +107,16 @@ static void setup_iomux_enet(void)
 	gpio_direction_output(IMX_GPIO_NR(1, 25) , 0);
 	udelay(500);
 	gpio_set_value(IMX_GPIO_NR(1, 25), 1);
+}
+
+static void setup_iomux_fec(void)
+{
+	imx_iomux_v3_setup_multiple_pads(fec_pads, ARRAY_SIZE(fec_pads));
+
+	/* Reset AR8031 PHY */
+	gpio_direction_output(IMX_GPIO_NR(1, 3) , 0);
+	udelay(500);
+	gpio_set_value(IMX_GPIO_NR(1, 3), 1);
 }
 
 iomux_v3_cfg_t const usdhc2_pads[] = {
@@ -184,7 +210,7 @@ struct fsl_esdhc_cfg usdhc_cfg[3] = {
 	{USDHC4_BASE_ADDR},
 };
 
-#define USDHC2_CD_GPIO	IMX_GPIO_NR(2, 2)
+#define USDHC2_CD_GPIO	IMX_GPIO_NR(4, 6)
 #define USDHC3_CD_GPIO	IMX_GPIO_NR(2, 0)
 
 int board_mmc_getcd(struct mmc *mmc)
@@ -424,7 +450,7 @@ int overwrite_console(void)
 
 int board_eth_init(bd_t *bis)
 {
-	setup_iomux_enet();
+	setup_iomux_fec();
 	setup_pcie();
 
 	return cpu_eth_init(bis);
