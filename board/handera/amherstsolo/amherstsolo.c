@@ -119,6 +119,24 @@ static void setup_iomux_fec(void)
 	gpio_set_value(IMX_GPIO_NR(1, 3), 1);
 }
 
+/* Function to set GPR register */
+void mxc_iomux_set_gpr_register(int group, int start_bit, int num_bits, int value)
+{
+	int i = 0;
+	u32 reg;
+
+	reg = readl(IOMUXC_BASE_ADDR + group * 4);
+	while (num_bits) {
+		reg &= ~(1 << (start_bit + i));
+		i++;
+		num_bits--;
+	}
+
+	reg |= (value << start_bit);
+	writel(reg, IOMUXC_BASE_ADDR + group * 4);
+}
+
+
 static int setup_fec(void)
 {
         struct iomuxc *iomuxc_regs = (struct iomuxc *)IOMUXC_BASE_ADDR;
