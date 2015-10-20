@@ -411,6 +411,9 @@ config TARGET_MX6SXSABRESD
 config TARGET_AMHERSTSOLO
 	bool "Support amherstsolo"
 
+config TARGET_AMHERSTQUAD
+	bool "Support amherstquad"
+
 config TARGET_GW_VENTANA
 	bool "Support gw_ventana"
 
@@ -639,6 +642,7 @@ source "board/freescale/mx6sabresd/Kconfig"
 source "board/freescale/mx6slevk/Kconfig"
 source "board/freescale/mx6sxsabresd/Kconfig"
 source "board/handera/amherstsolo/Kconfig"
+source "board/handera/amherstquad/Kconfig"
 source "board/freescale/vf610twr/Kconfig"
 source "board/gateworks/gw_ventana/Kconfig"
 source "board/genesi/mx51_efikamx/Kconfig"
