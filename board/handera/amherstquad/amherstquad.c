@@ -26,7 +26,8 @@
 #include <asm/arch/sys_proto.h>
 #include <i2c.h>
 #include <power/pmic.h>
-#include <power/pfuze100_pmic.h>
+/*#include <power/pfuze100_pmic.h> */
+/*#define CONFIG_DEFAULT_FDT_FILE	"imx6q-amherst-ldo.dtb"*/
 DECLARE_GLOBAL_DATA_PTR;
 
 #define UART_PAD_CTRL  (PAD_CTL_PUS_100K_UP |			\
@@ -536,7 +537,7 @@ int board_init(void)
 
 	return 0;
 }
-
+/*
 static int pfuze_init(void)
 {
 	struct pmic *p;
@@ -555,37 +556,31 @@ static int pfuze_init(void)
 	pmic_reg_read(p, PFUZE100_DEVICEID, &reg);
 	printf("PMIC:  PFUZE100 ID=0x%02x\n", reg);
 
-	/* Increase VGEN3 from 2.5 to 2.8V */
 	pmic_reg_read(p, PFUZE100_VGEN3VOL, &reg);
 	reg &= ~0xf;
 	reg |= 0xa;
 	pmic_reg_write(p, PFUZE100_VGEN3VOL, reg);
 
-	/* Increase VGEN5 from 2.8 to 3V */
 	pmic_reg_read(p, PFUZE100_VGEN5VOL, &reg);
 	reg &= ~0xf;
 	reg |= 0xc;
 	pmic_reg_write(p, PFUZE100_VGEN5VOL, reg);
 
-	/* Set SW1AB stanby volage to 0.975V */
 	pmic_reg_read(p, PFUZE100_SW1ABSTBY, &reg);
 	reg &= ~0x3f;
 	reg |= 0x1b;
 	pmic_reg_write(p, PFUZE100_SW1ABSTBY, reg);
 
-	/* Set SW1AB/VDDARM step ramp up time from 16us to 4us/25mV */
 	pmic_reg_read(p, PUZE_100_SW1ABCONF, &reg);
 	reg &= ~0xc0;
 	reg |= 0x40;
 	pmic_reg_write(p, PUZE_100_SW1ABCONF, reg);
 
-	/* Set SW1C standby voltage to 0.975V */
 	pmic_reg_read(p, PFUZE100_SW1CSTBY, &reg);
 	reg &= ~0x3f;
 	reg |= 0x1b;
 	pmic_reg_write(p, PFUZE100_SW1CSTBY, reg);
 
-	/* Set SW1C/VDDSOC step ramp up time from 16us to 4us/25mV */
 	pmic_reg_read(p, PFUZE100_SW1CCONF, &reg);
 	reg &= ~0xc0;
 	reg |= 0x40;
@@ -593,6 +588,7 @@ static int pfuze_init(void)
 
 	return 0;
 }
+*/
 
 #ifdef CONFIG_MXC_SPI
 int board_spi_cs_gpio(unsigned bus, unsigned cs)
