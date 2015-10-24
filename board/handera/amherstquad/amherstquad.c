@@ -613,7 +613,7 @@ int board_late_init(void)
 #ifdef CONFIG_CMD_BMODE
 	add_board_boot_modes(board_boot_modes);
 #endif
-	pfuze_init();
+/*	pfuze_init();*/
 
 	return 0;
 }
