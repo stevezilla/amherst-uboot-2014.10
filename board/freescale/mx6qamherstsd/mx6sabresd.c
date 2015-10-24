@@ -224,7 +224,17 @@ int board_mmc_init(bd_t *bis)
 		case 0:
 			imx_iomux_v3_setup_multiple_pads(
 				usdhc2_pads, ARRAY_SIZE(usdhc2_pads));
-			gpio_direction_input(USDHC2_CD_GPIO);
+			/*gpio_direction_input(USDHC2_CD_GPIO);*/
+
+			imx_iomux_v3_setup_pad(MX6_PAD_GPIO_18__GPIO7_IO13);
+			reg = readl(GPIO7_BASE_ADDR + 0x04);
+			reg |= (1 << 13);
+			writel(reg, GPIO7_BASE_ADDR + 0x04);
+
+			reg = readl(GPIO7_BASE_ADDR + 0x00);
+			reg |= (1 << 13);
+			writel(reg, GPIO7_BASE_ADDR + 0x00);
+
 			usdhc_cfg[0].sdhc_clk = mxc_get_clock(MXC_ESDHC2_CLK);
 			break;
 		case 1:
