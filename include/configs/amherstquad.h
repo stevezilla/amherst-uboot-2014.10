@@ -17,22 +17,23 @@
 #define CONFIG_CONSOLE_DEV		"ttymxc0"
 #define CONFIG_MMCROOT			"/dev/mmcblk0p2"
 #if defined(CONFIG_MX6Q)
-/*#define CONFIG_DEFAULT_FDT_FILE	"imx6q-amherst-ldo.dtb"*/
 #define CONFIG_DEFAULT_FDT_FILE	"imx6q-amherst-ldo.dtb"
 #elif defined(CONFIG_MX6DL)
 #define CONFIG_DEFAULT_FDT_FILE	"imx6dl-amherst-ldo.dtb"
 #endif
-#define PHYS_SDRAM_SIZE		(1u * 512 * 1024 * 1024)
+#define PHYS_SDRAM_SIZE		(1u * 1024 * 1024 * 1024)
 
-#define CONFIG_SUPPORT_EMMC_BOOT /* eMMC specific */
+
+/* #define CONFIG_SUPPORT_EMMC_BOOT */
 
 #include "mx6sabre_common.h"
 
-#define CONFIG_SYS_FSL_USDHC_NUM	3
+#define CONFIG_SYS_FSL_USDHC_NUM	2
 #if defined(CONFIG_ENV_IS_IN_MMC)
 #define CONFIG_SYS_MMC_ENV_DEV		0	/* SDHC3 */
 #endif
 
+/*
 #define CONFIG_CMD_PCI
 #ifdef CONFIG_CMD_PCI
 #define CONFIG_PCI
@@ -42,6 +43,7 @@
 #define CONFIG_PCIE_IMX_PERST_GPIO	IMX_GPIO_NR(7, 12)
 #define CONFIG_PCIE_IMX_POWER_GPIO	IMX_GPIO_NR(3, 19)
 #endif
+*/
 
 /* I2C Configs */
 #define CONFIG_CMD_I2C
@@ -50,9 +52,10 @@
 #define CONFIG_SYS_I2C_SPEED		  100000
 
 /* PMIC */
-#define CONFIG_POWER
+/*#define CONFIG_POWER
 #define CONFIG_POWER_I2C
 #define CONFIG_POWER_PFUZE100
 #define CONFIG_POWER_PFUZE100_I2C_ADDR	0x08
+*/
 
 #endif                         /* __MX6QSABRESD_CONFIG_H */
