@@ -1,3 +1,3 @@
-CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6sabresd/imximage.cfg,MX6Q"
+CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6qamherstsd/imximage.cfg,MX6Q"
 CONFIG_ARM=y
-CONFIG_TARGET_MX6SABRESD=y
+CONFIG_TARGET_MX6QAMHERSTSD=y
