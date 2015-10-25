@@ -93,6 +93,68 @@ static void setup_iomux_enet(void)
 	gpio_set_value(IMX_GPIO_NR(1, 25), 1);
 }
 
+/* ADDED FEC... */
+iomux_v3_cfg_t const fec_pads[] = {
+        MX6_PAD_ENET_MDC__ENET_MDC | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_MDIO__ENET_MDIO | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_CRS_DV__ENET_RX_EN | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_RXD0__ENET_RX_DATA0 | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_RXD1__ENET_RX_DATA1 | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_TX_EN__ENET_TX_EN | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_TXD0__ENET_TX_DATA0 | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_TXD1__ENET_TX_DATA1 | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_ENET_REF_CLK__ENET_TX_CLK | MUX_PAD_CTRL(ENET_PAD_CTRL),
+        MX6_PAD_GPIO_3__GPIO1_IO03 | MUX_PAD_CTRL(NO_PAD_CTRL), /* reset */
+        MX6_PAD_KEY_COL2__GPIO4_IO10 | MUX_PAD_CTRL(NO_PAD_CTRL), /*nINT pint */
+        MX6_PAD_GPIO_16__ENET_REF_CLK | MUX_PAD_CTRL(NO_PAD_CTRL),
+};
+
+static void setup_iomux_fec(void)
+{
+        imx_iomux_v3_setup_multiple_pads(fec_pads, ARRAY_SIZE(fec_pads));
+
+        /* Reset AR8031 PHY */
+        gpio_direction_output(IMX_GPIO_NR(1, 3) , 0);
+        udelay(500);
+        gpio_set_value(IMX_GPIO_NR(1, 3), 1);
+}
+
+void mxc_iomux_set_gpr_register(int group, int start_bit, int num_bits, int value)
+{
+        int i = 0;
+        u32 reg;
+
+        reg = readl(IOMUXC_BASE_ADDR + group * 4);
+        while (num_bits) {
+                reg &= ~(1 << (start_bit + i));
+                i++;
+                num_bits--;
+        }
+
+        reg |= (value << start_bit);
+        writel(reg, IOMUXC_BASE_ADDR + group * 4);
+}
+
+
+static int setup_fec(void)
+{
+        struct iomuxc *iomuxc_regs = (struct iomuxc *)IOMUXC_BASE_ADDR;
+        int ret;
+        u32 reg = 0;
+
+        mxc_iomux_set_gpr_register(1, 21, 1, 1);
+
+        /* clear gpr1[14], gpr1[18:17] to select anatop clock */
+        /*clrsetbits_le32(&iomuxc_regs->gpr[1], IOMUX_GPR1_FEC_MASK, 0); */
+
+        ret = enable_fec_anatop_clock(ENET_50MHz);
+        if (ret)
+                return ret;
+
+        return 0;
+}
+
+
 iomux_v3_cfg_t const usdhc2_pads[] = {
 	MX6_PAD_SD2_CLK__SD2_CLK	| MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD2_CMD__SD2_CMD	| MUX_PAD_CTRL(USDHC_PAD_CTRL),
@@ -434,7 +496,8 @@ int overwrite_console(void)
 
 int board_eth_init(bd_t *bis)
 {
-	setup_iomux_enet();
+/*	setup_iomux_enet();*/
+	setup_iomux_fec();
 	setup_pcie();
 
 	return cpu_eth_init(bis);
@@ -454,6 +517,10 @@ int board_init(void)
 {
 	/* address of boot parameters */
 	gd->bd->bi_boot_params = PHYS_SDRAM + 0x100;
+
+#ifdef CONFIG_FEC_MX
+	setup_fec();
+#endif
 
 #ifdef CONFIG_MXC_SPI
 	setup_spi();
