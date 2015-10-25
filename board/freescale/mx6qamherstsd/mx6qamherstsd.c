@@ -273,6 +273,7 @@ int board_mmc_init(bd_t *bis)
 {
 	s32 status = 0;
 	int i;
+	u32 reg;
 
 	/*
 	 * According to the board_mmc_init() the following map is done:
