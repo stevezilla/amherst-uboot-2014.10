@@ -151,7 +151,7 @@
 	EMMC_ENV	  \
 	"mmcargs=setenv bootargs console=${console},${baudrate} " \
 		"root=${mmcroot} rootwait consoleblank=0 vt.global_cursor_default=0 " \
-		"video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 video=mxcfb1:dev=ldb,LDB=-1080P75,if=RGB666 \0" \
+		"video=mxcfb0:dev=hdmi,1280x720M@60,if=RGB24 video=mxcfb1:dev=ldb,LDB=-1080P75,if=RGB666 \0" \
 	"loadbootscript=" \
 		"fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
 	"bootscript=echo Running bootscript from mmc ...; " \
