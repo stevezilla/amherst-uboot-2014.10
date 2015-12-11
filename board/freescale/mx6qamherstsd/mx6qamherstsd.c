@@ -407,7 +407,7 @@ struct display_info_t const displays[] = {{
 		.vsync_len      = 10,
 		.sync           = FB_SYNC_EXT,
 		.vmode          = FB_VMODE_NONINTERLACED
-} }, {
+} }/*, {
 	.bus	= -1,
 	.addr	= 0,
 	.pixfmt	= IPU_PIX_FMT_RGB24,
@@ -427,7 +427,7 @@ struct display_info_t const displays[] = {{
 		.vsync_len      = 10,
 		.sync           = FB_SYNC_EXT,
 		.vmode          = FB_VMODE_NONINTERLACED
-} } };
+} }*/ };
 size_t display_count = ARRAY_SIZE(displays);
 
 static void setup_display(void)
@@ -440,7 +440,11 @@ static void setup_display(void)
 	imx_iomux_v3_setup_multiple_pads(di0_pads, ARRAY_SIZE(di0_pads));
 
 	enable_ipu_clock();
-	imx_setup_hdmi();
+	/* Having u-boot setup hdmi causes the kernel boot to hang
+	*  when the HDMI cable is plugged in.  This is a known
+	*  issue that is supposedly fixed int Jethro (U-boot 2015)
+	*/
+	/*imx_setup_hdmi();*/
 
 	/* Turn on LDB0, LDB1, IPU,IPU DI0 clocks */
 	reg = readl(&mxc_ccm->CCGR3);
