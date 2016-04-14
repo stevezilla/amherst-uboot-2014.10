@@ -28,7 +28,11 @@
 
 #include "mx6sabre_common.h"
 
-#define CONFIG_SYS_FSL_USDHC_NUM	2
+#if defined(CONFIG_LDO_BYPASS_CHECK)
+#undef CONFIG_LDO_BYPASS_CHECK
+#endif
+
+#define CONFIG_SYS_FSL_USDHC_NUM	3
 #if defined(CONFIG_ENV_IS_IN_MMC)
 #define CONFIG_SYS_MMC_ENV_DEV		2	/* SDHC3 */
 #endif
