@@ -149,20 +149,21 @@ void mxc_iomux_set_gpr_register(int group, int start_bit, int num_bits, int valu
 
 static int setup_fec(void)
 {
+	int ret = 0;
         struct iomuxc *iomuxc_regs = (struct iomuxc *)IOMUXC_BASE_ADDR;
-        int ret;
+        /*int ret;
 	u32 reg = 0;
 
-	mxc_iomux_set_gpr_register(1, 21, 1, 1);
+	mxc_iomux_set_gpr_register(1, 21, 1, 1);*/
 
         /* clear gpr1[14], gpr1[18:17] to select anatop clock */
         /*clrsetbits_le32(&iomuxc_regs->gpr[1], IOMUX_GPR1_FEC_MASK, 0); */
 
-        ret = enable_fec_anatop_clock(ENET_50MHz);
-        if (ret)
-                return ret;
+	setbits_le32(&iomuxc_regs->gpr[1], IOMUXC_GPR1_ENET_CLK_SEL_MASK);
 
-        return 0;
+        ret = enable_fec_anatop_clock(0, ENET_50MHZ);
+
+        return ret;
 }
 
 
@@ -208,13 +209,13 @@ iomux_v3_cfg_t const usdhc4_pads[] = {
 
 static struct i2c_pads_info i2c_pad_info1 = {
 	.scl = {
-		.i2c_mode = MX6_PAD_KEY_COL3__I2C2_SCL | I2C_PAD,
-		.gpio_mode = MX6_PAD_KEY_COL3__GPIO4_IO12 | I2C_PAD,
+		.i2c_mode = MX6_PAD_CSI0_DAT9__I2C1_SCL | I2C_PAD,
+		.gpio_mode = MX6_PAD_CSI0_DAT9__GPIO5_IO27 | I2C_PAD,
 		.gp = IMX_GPIO_NR(5, 27)
 	},
 	.sda = {
-		.i2c_mode = MX6_PAD_KEY_ROW3__I2C2_SDA | I2C_PAD,
-		.gpio_mode = MX6_PAD_KEY_ROW3__GPIO4_IO13 | I2C_PAD,
+		.i2c_mode = MX6_PAD_CSI0_DAT8__I2C1_SDA | I2C_PAD,
+		.gpio_mode = MX6_PAD_CSI0_DAT8__GPIO5_IO26 | I2C_PAD,
 		.gp = IMX_GPIO_NR(5, 26)
 	}
 };
@@ -244,7 +245,6 @@ static struct i2c_pads_info i2c_pad_info3 = {
 		.gp = IMX_GPIO_NR(3, 18)
 	}
 };
-
 
 /*static void setup_spi(void)
 {
