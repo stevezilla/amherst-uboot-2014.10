@@ -321,13 +321,13 @@ int board_mmc_init(bd_t *bis)
 			gpio_direction_output(IMX_GPIO_NR(7,13),1);*/
 
 			imx_iomux_v3_setup_pad(MX6_PAD_GPIO_18__GPIO7_IO13);
-                        reg = readl(GPIO7_BASE_ADDR + 0x04);
+                        reg = readl(GPIO7_BASE_ADDR + GPIO_GDIR);
                         reg |= (1 << 13);
-                        writel(reg, GPIO7_BASE_ADDR + 0x04);
+                        writel(reg, GPIO7_BASE_ADDR + GPIO_GDIR);
 
-                        reg = readl(GPIO7_BASE_ADDR + 0x00);
+                        reg = readl(GPIO7_BASE_ADDR + GPIO_DR);
                         reg |= (1 << 13);
-                        writel(reg, GPIO7_BASE_ADDR + 0x00);
+                        writel(reg, GPIO7_BASE_ADDR + GPIO_DR);
 
 
 
@@ -339,10 +339,14 @@ int board_mmc_init(bd_t *bis)
 			/*gpio_direction_input(USDHC3_CD_GPIO);*/
 
 			/* WiFi Power Down */
-			imx_iomux_v3_setup_pad(MX6_PAD_SD3_DAT4__GPIO7_IO01);
+			imx_iomux_v3_setup_pad(MX6_PAD_SD3_DAT4__GPIO7_IO01 | MUX_PAD_CTRL(NO_PAD_CTRL));
 
 			/* WiFi Reset */
-			imx_iomux_v3_setup_pad(MX6_PAD_SD3_RST__GPIO7_IO08);
+			imx_iomux_v3_setup_pad(MX6_PAD_SD3_RST__GPIO7_IO08 | MUX_PAD_CTRL(NO_PAD_CTRL));
+
+			imx_iomux_v3_setup_pad(MX6PAD_GPIO_8__XTALOSC_REF_CLK_32K);
+
+			mdelay(100);
 
 			reg = readl(GPIO7_BASE_ADDR + GPIO_GDIR);
 			reg |= (1 << 1);
@@ -350,6 +354,10 @@ int board_mmc_init(bd_t *bis)
 			writel(reg, GPIO7_BASE_ADDR + GPIO_GDIR);
 
 			/* Turn power on */
+			reg = readl(GPIO7_BASE_ADDR + GPIO_DR);
+			reg &= ~(1 << 1);
+			writel(reg, GPIO7_BASE_ADDR + GPIO_DR);
+			mdelay(10);
 			reg = readl(GPIO7_BASE_ADDR + GPIO_DR);
 			reg |= (1 << 1);
 			writel(reg, GPIO7_BASE_ADDR + GPIO_DR);
