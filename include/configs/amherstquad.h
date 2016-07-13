@@ -6,8 +6,11 @@
  * SPDX-License-Identifier:	GPL-2.0+
  */
 
-#ifndef __MX6QSABRESD_CONFIG_H
-#define __MX6QSABRESD_CONFIG_H
+//#ifndef __MX6QSABRESD_CONFIG_H
+//#define __MX6QSABRESD_CONFIG_H
+
+#ifndef __AMHERSTQUAD_CONFIG_H
+#define __AMHERSTQUAD_CONFIG_H
 
 #include <asm/arch/imx-regs.h>
 #include <asm/imx-common/gpio.h>
@@ -37,7 +40,7 @@
 #define CONFIG_SYS_MMC_ENV_DEV		2	/* SDHC3 */
 #endif
 
-/*
+
 #define CONFIG_CMD_PCI
 #ifdef CONFIG_CMD_PCI
 #define CONFIG_PCI
@@ -47,7 +50,7 @@
 #define CONFIG_PCIE_IMX_PERST_GPIO	IMX_GPIO_NR(7, 12)
 #define CONFIG_PCIE_IMX_POWER_GPIO	IMX_GPIO_NR(3, 19)
 #endif
-*/
+
 
 /* I2C Configs */
 #define CONFIG_CMD_I2C
@@ -56,10 +59,10 @@
 #define CONFIG_SYS_I2C_SPEED		  100000
 
 /* PMIC */
-/*#define CONFIG_POWER
+#define CONFIG_POWER
 #define CONFIG_POWER_I2C
-#define CONFIG_POWER_PFUZE100
-#define CONFIG_POWER_PFUZE100_I2C_ADDR	0x08
-*/
+//#define CONFIG_POWER_PFUZE100
+//#define CONFIG_POWER_PFUZE100_I2C_ADDR	0x08
+
 
 #endif                         /* __MX6QSABRESD_CONFIG_H */
