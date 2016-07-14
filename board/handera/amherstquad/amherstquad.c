@@ -102,6 +102,9 @@ iomux_v3_cfg_t const fec_pads[] = {
         MX6_PAD_GPIO_16__ENET_REF_CLK | MUX_PAD_CTRL(NO_PAD_CTRL),
 };
 
+static iomux_v3_cfg_t const fec_reset_pad = {
+        MX6_PAD_GPIO_3__GPIO1_IO03 | MUX_PAD_CTRL(NO_PAD_CTRL), /* reset */
+};
 
 static void setup_iomux_enet(void)
 {
@@ -161,7 +164,7 @@ static int setup_fec(void)
 
 	setbits_le32(&iomuxc_regs->gpr[1], IOMUXC_GPR1_ENET_CLK_SEL_MASK);
 
-        ret = enable_fec_anatop_clock(0, ENET_50MHZ);
+        ret = enable_fec_anatop_clock(ENET_50MHZ);
 
         return ret;
 }
@@ -344,7 +347,7 @@ int board_mmc_init(bd_t *bis)
 			/* WiFi Reset */
 			imx_iomux_v3_setup_pad(MX6_PAD_SD3_RST__GPIO7_IO08 | MUX_PAD_CTRL(NO_PAD_CTRL));
 
-			imx_iomux_v3_setup_pad(MX6PAD_GPIO_8__XTALOSC_REF_CLK_32K);
+			imx_iomux_v3_setup_pad(MX6_PAD_GPIO_8__XTALOSC_REF_CLK_32K);
 
 			mdelay(100);
 
