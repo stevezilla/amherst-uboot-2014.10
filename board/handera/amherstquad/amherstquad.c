@@ -164,7 +164,7 @@ static int setup_fec(void)
 
 	setbits_le32(&iomuxc_regs->gpr[1], IOMUXC_GPR1_ENET_CLK_SEL_MASK);
 
-        ret = enable_fec_anatop_clock(ENET_50MHZ);
+        ret = enable_fec_anatop_clock(ENET_50MHz);
 
         return ret;
 }
