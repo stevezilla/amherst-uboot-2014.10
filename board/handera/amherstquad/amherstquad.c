@@ -477,7 +477,7 @@ struct display_info_t const displays[] = {{
 		.vsync_len      = 10,
 		.sync           = FB_SYNC_EXT,
 		.vmode          = FB_VMODE_NONINTERLACED
-} }, {
+} }/*, {
 	.bus	= -1,
 	.addr	= 0,
 	.pixfmt	= IPU_PIX_FMT_RGB24,
@@ -497,7 +497,7 @@ struct display_info_t const displays[] = {{
 		.vsync_len      = 10,
 		.sync           = FB_SYNC_EXT,
 		.vmode          = FB_VMODE_NONINTERLACED
-} } };
+} }*/ };
 size_t display_count = ARRAY_SIZE(displays);
 
 static void setup_display(void)
@@ -510,7 +510,7 @@ static void setup_display(void)
 	imx_iomux_v3_setup_multiple_pads(di0_pads, ARRAY_SIZE(di0_pads));
 
 	enable_ipu_clock();
-	imx_setup_hdmi();
+	/*imx_setup_hdmi();*/
 
 	/* Turn on LDB0, LDB1, IPU,IPU DI0 clocks */
 	reg = readl(&mxc_ccm->CCGR3);
