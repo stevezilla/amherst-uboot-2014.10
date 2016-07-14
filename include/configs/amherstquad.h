@@ -6,9 +6,6 @@
  * SPDX-License-Identifier:	GPL-2.0+
  */
 
-//#ifndef __MX6QSABRESD_CONFIG_H
-//#define __MX6QSABRESD_CONFIG_H
-
 #ifndef __AMHERSTQUAD_CONFIG_H
 #define __AMHERSTQUAD_CONFIG_H
 
@@ -61,8 +58,6 @@
 /* PMIC */
 #define CONFIG_POWER
 #define CONFIG_POWER_I2C
-//#define CONFIG_POWER_PFUZE100
-//#define CONFIG_POWER_PFUZE100_I2C_ADDR	0x08
 
 
 #endif                         /* __MX6QSABRESD_CONFIG_H */
